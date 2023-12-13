@@ -14,6 +14,10 @@ global:
   clusterName: in-cluster
   clusterNamespace: default
   domain: testdomain.com
+  # 사용가능한 단위: "h", "m", "s", "ms", "us", "ns"
+  # ex) 3일 3시간 10분 : 75h10m
+  # 기본값은 1년(8760h)
+  certDuration: 8760h
 
 modules:
   ### calico
@@ -37,8 +41,6 @@ modules:
       storageClassName: "nfs"
     oidc:
       enabled: false
-    logLevel: INFO
-    # "Trace", "Debug", "Info", "Warn", "Error", "Critical" or "None"
 
   ### gitea
   gitea:
@@ -51,6 +53,10 @@ modules:
   ### sonarqube
   sonarqube:
     enabled: false
+    oidc_enabled: false
+    persistence:
+      enabled: true
+      storageClass: ""
     # TRACE, DEBUG, INFO
     logLevel: INFO
     subdomain: sonarqube
@@ -401,6 +407,7 @@ modules:
     #   version: 0.1.6
     templateOperator:
       version: 0.2.8
+    # debug, info, warn, error, dpanic, panic, fatal 7단계, default 로 error 사용
     logLevel: info
 
   ### catalog controller (deprecated since k8s 1.25v)
@@ -511,17 +518,20 @@ modules:
   tektonPipeline:
     enabled: true
     #namespace: tekton-pipelines
+    # debug, info, warn, error / default: info
     logLevel: info
 
   ### tekton trigger
   tektonTrigger:
     enabled: true
+    # debug, info, warn, error / default: info
     logLevel: info
 
   ### cicd operator
   cicd:
     enabled: true
     subdomain: cicd-webhook
+    # debug, info, error / default: info
     logLevel: info
 
   ### redis-operator

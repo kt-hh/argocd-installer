@@ -27,6 +27,7 @@ spec:
         # Quote is essential
         - name: global.network.disabled
           value: "true"
+          forceString: true
         - name: global.privateRegistry
           value: "폐쇄망일 경우 image registry 주소를 입력하세요 ex) https://hyperregistry.testdomain.com"
         - name: spec.source.repoURL
